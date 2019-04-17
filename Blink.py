@@ -213,7 +213,7 @@ class More():
             state = 'Years';
         else:
             state = '';
-        Final= '{}'.format('%.2f'%i);
+       
 	#-Converted these values in order to add the thousand separator (,)-#
         Interest = '%.2f'%(Interest);
 	Interest = float(Interest);
