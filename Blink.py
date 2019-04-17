@@ -230,7 +230,7 @@ class More():
             data2=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Percentage rate: {}%'.format(R.get()))
             data3=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Time Invested: {} {}'.format(T.get(),state))
             data4=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Interest: $ {:,}'.format(Interest))
-            data5=Label(More_info,font='Arial 25 bold',bg='white',fg='black',text='Total Earnings: $ {:,}'.format(Tota))
+            data5=Label(More_info,font='Arial 25 bold',bg='white',fg='black',text='Total Earnings: $ {:,}'.format(Total))
       
             data1.place(x=2,y=5)
             data2.place(x=2,y=75)
