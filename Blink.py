@@ -185,7 +185,7 @@ class Months(object):
            
             Container.configure(text="Interest: $ %.2f"%final_state);
             total = float(P.get()) + final_state;
-            Total = Label(Container,text='Total: $ %.2f'%total_mark,bg='lightgray',font='FB 12 underline');
+            Total = Label(Container,text='Total: $ %.2f'%total,bg='lightgray',font='FB 12 underline');
 
             Total.place(x=45,y=68);
             More()._more_(P.get(),R.get(),T.get(),Interest,total);
