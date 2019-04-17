@@ -1,6 +1,9 @@
 # InterestCalc
 A python+Tk program to calculate interests
 
+run the main file:
+>python blink.py
+
 the program still has  a few minor bugs
 in attempt to add the thousand separator when your total gets to a thousand
 it can not be converted back to float
