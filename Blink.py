@@ -183,7 +183,7 @@ class Months(object):
             I=(float(P.get())*float(R.get()))*(float(T.get())/12);
             Interest = float(I/100);
            
-            Container.configure(text="Interest: $ %.2f"%final_state);
+            Container.configure(text="Interest: $ %.2f"%Interest);
             total = float(P.get()) + final_state;
             Total = Label(Container,text='Total: $ %.2f'%total,bg='lightgray',font='FB 12 underline');
 
