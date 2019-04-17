@@ -3,41 +3,10 @@ import sqlite3,thread,os,time,random
 import sys
 
 """
-==========================================================================================================
-                                    _____WARNING______
-
-PLEASE MAKE SURE YOU UNDERSTAND THE CODE BEFOR MESSING WITH IT...I WOULDNT RECOMEND MESING WITH IT
-                        DONT TRY TO MAKE SENSE OF EVERYTHING JUST DONT TRY
-
-==========================================================================================================
+A simple Interest rate calculator
+With monthly and yearly compound calculations
 """
 #set program version and information
-
-class Version_Settings:
-
-    def prog_sys(self,x,y,z):
-        self.x = 1
-        self.y = 5
-        self.z = 10
-        self.version = x,y,z
-        self.developer = 'Tanaka Chinengundu'
-        
-        try:
-            scan_file = os.listdir('files\settings')
-            if('prog.ini' not in scan_file):
-                setting_file = open('files\settings\prog.ini','w')
-                setting_file.write('[Config]\n\nVersion='+self.version+'\nDeveloper='+self.developer)
-            else:
-                content = open('files\settings','r');
-                data = content.read().strip('\r\s');
-                if(self.version and self.developer not in data):
-                    exit('config file corrupted');
-                else:
-                    pass
-        except Exception, e:
-            print e;
-            exit(20) or quit(1)
-#Version_Settings().prog_sys('x','y','z')
 
 #//Declaring constant variables
 
@@ -65,6 +34,7 @@ window.iconbitmap(r'files/icon/logo.ico')
 #PATCHS
 try:
 	from files.patchs import patch01
+	from files.patchs import config_patch
 	patch01.patch().menu(window)
 except:
 	pass
@@ -211,15 +181,14 @@ class Months(object):
 
     def calcMonths(self):
             I=(float(P.get())*float(R.get()))*(float(T.get())/12);
-            final_state = I/100;
-            #print 'state:',final_state
-            #print '%.2f'%final_state;
-            Container.configure(text="Interest: $ %.2f"%final_state)
-            total_mark = float(P.get()) + final_state
-            Total = Label(Container,text='Total: $ %.2f'%total_mark,bg='lightgray',font='FB 12 underline')
+            Interest = float(I/100);
+           
+            Container.configure(text="Interest: $ %.2f"%final_state);
+            total = float(P.get()) + final_state;
+            Total = Label(Container,text='Total: $ %.2f'%total_mark,bg='lightgray',font='FB 12 underline');
 
-            Total.place(x=45,y=68)
-            More()._more_(P.get(),R.get(),T.get(),final_state,total_mark) 
+            Total.place(x=45,y=68);
+            More()._more_(P.get(),R.get(),T.get(),Interest,total);
 
 class check():
     def checkformat(self):
@@ -234,24 +203,24 @@ class More():
 #But will make a patch to clean up the mess soon!!!!!!
 
 #data could only be passeed to this framwork globals do not work here
-    def _more_(self,p,r,t,i,total):
-        pass
-        period= _Var_.get()
-        state=''
+    def _more_(self,p,r,t,Interest,total):
+        pass;
+        period= _Var_.get();
+        state='';
         if(period == 1):
-            state = 'Months'
+            state = 'Months';
         elif(period != 1):
-            state = 'Years'
+            state = 'Years';
         else:
-            state = ''
-        Final= '{}'.format('%.2f'%i)
-        i='%.2f'%i
-        intr=float(i)
-        Interest = '{:,}'.format(intr)
-        total='%.2f'%total
-        tot=float(total)
-        Total = '{:,}'.format(tot)
-        More_info = Frame()
+            state = '';
+        Final= '{}'.format('%.2f'%i);
+	#-Converted these values in order to add the thousand separator (,)-#
+        Interest = '%.2f'%(Interest);
+	Interest = float(Interest);
+        Total = '%.2f'%(total);
+        Total = float(total);
+	#--------------------------------------------------------------#
+        More_info = Frame();
         More_info.configure(bg='white',width=530,height=345,border=1,relief=GROOVE,);
         More_info.place(x=402,y=70)
 	Total = float(Total)
@@ -260,8 +229,8 @@ class More():
             data1=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Invested amount: $ {:,}'.format(float(P.get())))
             data2=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Percentage rate: {}%'.format(R.get()))
             data3=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Time Invested: {} {}'.format(T.get(),state))
-            data4=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Interest: $ %.2f'%(float(Interest)))
-            data5=Label(More_info,font='Arial 25 bold',bg='white',fg='black',text='Total Earnings: $ %.2f'%(Tota))
+            data4=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Interest: $ {:,}'.format(Interest))
+            data5=Label(More_info,font='Arial 25 bold',bg='white',fg='black',text='Total Earnings: $ {:,}'.format(Tota))
       
             data1.place(x=2,y=5)
             data2.place(x=2,y=75)
@@ -276,20 +245,6 @@ class More():
         print 'Total:',total_mark
         #Info_container.configure(width=110,height=220)
         #Info_container.place(x=2,y=5)
-        
-class Hestory(object):
-    def _hestory_(self):
-        try:
-            os.system('mkdir files/history');
-        except:
-            pass
-        save = sqlite3.connect()
-        pass;
-
-class About(object):
-    def Info(self):
-        pass
-
 
 
 if(__name__ == '__main__'):
