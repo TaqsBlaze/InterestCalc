@@ -2,7 +2,7 @@
 A python+Tk program to calculate interests
 
 run the main file:
->python blink.py
+>python Blink.py
 
 The program is running as expected now
 With few more features coming soon
