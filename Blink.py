@@ -34,8 +34,8 @@ window.iconbitmap(r'files/icon/logo.ico')
 #PATCHS
 try:
 	from files.patchs import patch01
+        patch01.patch().menu(window)
 	from files.patchs import config_patch
-	patch01.patch().menu(window)
 except:
 	pass
 
@@ -141,13 +141,8 @@ class Main(object):
        
         try:
             I = (float(P.get())*float(R.get())*float(T.get()))/100;
-            print '%.2f'%I;
             _InitCount_ = I;
-            y='%.2f'%I
-            print type(y)
-            u=float(y)
-            #I_reslt=Label(window,text='Interest: {} {}'.format('$',_InitCount_),bg='lightgrey',fg='black',font='Consol 20 bold',width=17,height=3,border=3);
-            # I_reslt.place(x=38,y=358);
+          
             Container.configure(text='{} {}'.format('Interest: $','%.2f'%_InitCount_))
             total_mark = float(P.get()) + _InitCount_
             Total = Label(Container,text='Total: $ %.2f'%(total_mark),bg='lightgray',font=12)
