@@ -1,12 +1,42 @@
 from Tkinter import *
-import sqlite3,thread,os,time,random
+import thread,os,time
 import sys
 
+#Part system imports/
+from files import SplashScreen
+from files import Years,Months
 """
-A simple Interest rate calculator
-With monthly and yearly compound calculations
+==========================================================================================================
+                            A python Interest rate calculator Developed by Tanaka Chinengundu
+==========================================================================================================
 """
 #set program version and information
+
+class Version_Settings:
+
+    def prog_sys(self,x,y,z):
+        self.x = 1
+        self.y = 5
+        self.z = 10
+        self.version = x,y,z
+        self.developer = 'Tanaka Chinengundu'
+        
+        try:
+            scan_file = os.listdir(r'files\settings')
+            if('prog.ini' not in scan_file):
+                setting_file = open(r'files\settings\prog.ini','w')
+                setting_file.write('[Config]\n\nVersion='+self.version+'\nDeveloper='+self.developer)
+            else:
+                content = open(r'files\settings','r');
+                data = content.read().strip('\r\s');
+                if(self.version and self.developer not in data):
+                    exit('config file corrupted');
+                else:
+                    pass
+        except Exception, e:
+            print e;
+            exit(20) or quit(1)
+#sVersion_Settings().prog_sys('x','y','z')
 
 #//Declaring constant variables
 
@@ -34,8 +64,7 @@ window.iconbitmap(r'files/icon/logo.ico')
 #PATCHS
 try:
 	from files.patchs import patch01
-        patch01.patch().menu(window)
-	from files.patchs import config_patch
+	patch01.patch().menu(window)
 except:
 	pass
 
@@ -99,7 +128,7 @@ class Main(object):
         
         
         visibility=window.attributes('-alpha',visible)
-        More()._more_(P.get(),R.get(),T.get(),_InitCount_,total_mark)
+        SplashScreen._more_(_Var_.get(),P.get(),R.get(),T.get(),_InitCount_,total_mark)
         Label(window,text="Interest Rate Calculator",bg='green2',font='Angency 20 bold',fg='white',relief=RIDGE,border=2).pack(fill=BOTH);
         Label(grid,text='Principal($)',bg=Label_color,fg='black',font=Label_Font).place(x=_Const_,y=65);
         P.place(x=15,y=95);
@@ -119,7 +148,7 @@ class Main(object):
                 time.sleep(0.1)
                 window.attributes('-alpha',visible)
 
-        Label(grid,text="Period[                               ]",bg=Label_color,fg='black',font=Label_Font).place(x=_Const_,y=225);
+        Label(grid,text="Period[\t\t        ]",bg=Label_color,fg='black',font=Label_Font).place(x=_Const_,y=225);
         T.place(x=_Const_,y=250);
         Button(grid,text='calculate',bg='red',fg='white',border=2,relief=RIDGE,font="Roboto 10 bold",width=15,command=check().checkformat).place(x=36,y=309);
         global months;
@@ -132,114 +161,20 @@ class Main(object):
         _Var_.set(0)
         d = Container.place(x=1,y=3);
         months = Checkbutton(grid,text="Months",bg='white',font='roboto 9',variable=_Var_,command=None);
-        years = Checkbutton(grid,text="Years",bg='white',font='roboto 9',variable = _Var2_,);
+        years = Checkbutton(grid,text="Years",bg='white',font='roboto 9',variable = _Var2_,command=None);
         years.configure(border=0);
         years.place(x=135,y=225);
         months.place(x=70,y=225);
         thread.start_new_thread(transition_thread,('transition',1))
-    def Calculate(self):
-       
-        try:
-            I = (float(P.get())*float(R.get())*float(T.get()))/100;
-            _InitCount_ = I;
-          
-            Container.configure(text='{} {}'.format('Interest: $','%.2f'%_InitCount_))
-            total_mark = float(P.get()) + _InitCount_
-            Total = Label(Container,text='Total: $ %.2f'%(total_mark),bg='lightgray',font=12)
-            Total.place(x=45,y=68)
-            screen.update();
-            More()._more_(P.get(),R.get(),T.get(),_InitCount_,total_mark)
-        except:
-            pass
     
-    def notice(self):
-        win = Tk();
-        win.geometry('410x500+250+150');
-        win.maxsize(450,195);
-        win.minsize(450,195);
-        win.config(bg='white');
-        win.title("NOTICE!")
-        win_font = 'Calibri 12 bold';
-
-        note ='''
-        NOTICE
-        Sorry this feature is still under development.
-        The developer is working on bringing this feature on the
-        next version release
-        in the meantime please use the Years checkbox
-        '''
-        Label(win,text=note,font=win_font,bg='white',).pack();
-        
-        Button(win,text='Ok',width=15,font='britanic 13',command=win.destroy).pack() #close the notice window
-        _Var_.set(0);   #Reseting the month checkbox to value 0
-class Months(object):
-
-    def calcMonths(self):
-            I=(float(P.get())*float(R.get()))*(float(T.get())/12);
-            Interest = float(I/100);
-           
-            Container.configure(text="Interest: $ %.2f"%Interest);
-            total = float(P.get()) + Interest;
-            Total = Label(Container,text='Total: $ %.2f'%total,bg='lightgray',font='FB 12 underline');
-
-            Total.place(x=45,y=68);
-            More()._more_(P.get(),R.get(),T.get(),Interest,total);
 
 class check():
     def checkformat(self):
         if(_Var_.get() == 1):
-            Months().calcMonths();
+            Months.calcMonths(Container,_Var_.get(),P.get(),R.get(),T.get());
         else:
-            Main().Calculate();
+            Years.Calculate(Container,_Var_.get(),P.get(),R.get(),T.get(),screen);
 
-class More():
-#Getting things done in this framework was kind of tidius and crazy
-#Had to find some go arounds and hacks to give somewhat readable data
-#But will make a patch to clean up the mess soon!!!!!!
-
-#data could only be passeed to this framwork globals do not work here
-    def _more_(self,p,r,t,Interest,total):
-        pass;
-        period= _Var_.get();
-        state='';
-        if(period == 1):
-            state = 'Months';
-        elif(period != 1):
-            state = 'Years';
-        else:
-            state = '';
-       
-	#-Converted these values in order to add the thousand separator (,)-#
-        Interest = '%.2f'%(Interest);
-	Interest = float(Interest);
-        Total = '%.2f'%(total);
-        Total = float(total);
-	#--------------------------------------------------------------#
-        More_info = Frame();
-        More_info.configure(bg='white',width=530,height=345,border=1,relief=GROOVE,);
-        More_info.place(x=402,y=70)
-	Total = float(Total)
-        try:
-
-            data1=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Invested amount: $ {:,}'.format(float(P.get())))
-            data2=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Percentage rate: {}%'.format(R.get()))
-            data3=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Time Invested: {} {}'.format(T.get(),state))
-            data4=Label(More_info,font='Arial 15 bold',bg='white',fg='black',text='Interest: $ {:,}'.format(Interest))
-            data5=Label(More_info,font='Arial 25 bold',bg='white',fg='black',text='Total Earnings: $ {:,}'.format(Total))
-      
-            data1.place(x=2,y=5)
-            data2.place(x=2,y=75)
-            data3.place(x=2,y=140)
-            data4.place(x=2,y=200)
-            data5.place(x=2,y=290)
-        except Exception,e:
-			print e
-			pass
-			Label(More_info,text='BLINK',font='"Roman" 89 bold underline',bg='white',fg='black').place(x=66,y=120)
-        print 'final:',final_state
-        print 'Total:',total_mark
-        #Info_container.configure(width=110,height=220)
-        #Info_container.place(x=2,y=5)
 
 
 if(__name__ == '__main__'):
