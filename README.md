@@ -1,6 +1,8 @@
 # InterestCalc
 A python+Tk program to calculate interests
-
+depandances:
+Tkinter
+>pip install Tkinter
 run the main file:
 >python blink.py
 
