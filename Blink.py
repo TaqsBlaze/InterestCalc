@@ -2,7 +2,7 @@ from Tkinter import *
 import thread,os,time
 import sys
 
-#Part system imports/
+#Part system imports/#
 from files import SplashScreen
 from files import Years,Months
 from files.files.UI import UI_transition
