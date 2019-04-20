@@ -5,9 +5,9 @@ import sys
 #Part system imports/
 from files import SplashScreen
 from files import Years,Months
-from files.UI import UI_transition
-from files.UI import WindowProperties
-from files.UI import Extras
+from files.files.UI import UI_transition
+from files.files.UI import WindowProperties
+from files.files.UI import Extras
 """
 ==========================================================================================================
                                 A simple interest rate calculator
