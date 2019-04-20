@@ -5,43 +5,19 @@ import sys
 #Part system imports/
 from files import SplashScreen
 from files import Years,Months
+from files.UI import UI_transition
+from files.UI import WindowProperties
+from files.UI import Extras
 """
 ==========================================================================================================
-                            A python Interest rate calculator Developed by Tanaka Chinengundu
+                                A simple interest rate calculator
+                                 Developed by Tanaka Chinengundu
 ==========================================================================================================
 """
-#set program version and information
-
-class Version_Settings:
-
-    def prog_sys(self,x,y,z):
-        self.x = 1
-        self.y = 5
-        self.z = 10
-        self.version = x,y,z
-        self.developer = 'Tanaka Chinengundu'
-        
-        try:
-            scan_file = os.listdir(r'files\settings')
-            if('prog.ini' not in scan_file):
-                setting_file = open(r'files\settings\prog.ini','w')
-                setting_file.write('[Config]\n\nVersion='+self.version+'\nDeveloper='+self.developer)
-            else:
-                content = open(r'files\settings','r');
-                data = content.read().strip('\r\s');
-                if(self.version and self.developer not in data):
-                    exit('config file corrupted');
-                else:
-                    pass
-        except Exception, e:
-            print e;
-            exit(20) or quit(1)
-#sVersion_Settings().prog_sys('x','y','z')
-
 #//Declaring constant variables
 
 Header_Title = "Blink";
-_ProgramSize_ = '950x610+246+75';
+_ProgramSize_ = '950x700+246+75';
 _ProgramVersion_= '1.5.10';
 _ProgramTitle_ = "{} [version:{}]".format(Header_Title,_ProgramVersion_);
 _Font_='Arial 15 bold italic';
@@ -55,16 +31,12 @@ Entry_Border = 2;
 
 #//Main window object
 window = Tk();
-window.geometry(_ProgramSize_);
-window.title(_ProgramTitle_);
-window.maxsize(950,610);
-window.config(bg=Main_window_color);
-window.iconbitmap(r'files/icon/logo.ico')
+WindowProperties.Main_Window(window,_ProgramSize_,_ProgramTitle_,Main_window_color);
 
 #PATCHS
 try:
 	from files.patchs import patch01
-	patch01.patch().menu(window)
+	patch01.patch().menu(window);
 except:
 	pass
 
@@ -76,19 +48,17 @@ except:
 
 
 #//Lets get to the good stuff now!!
-result_container=Frame()
-result_container.configure(width=920,height=170,relief=RIDGE,border=4,bg='white')
-result_container.place(x=15,y=430)
-grid = Frame()
-grid.configure(width=350,height=350,border=2,relief=RIDGE,bg='white',cursor='plus')
-grid.place(x=15,y=70)
+Extras.extras();
+screen = Frame();
+screen.config(width=310,height=120,border=5,bg='black',cursor='circle');
+screen.place(x=31,y=450);
+  
 #//screen object (wasnt really necesary but why not)
-screen = Frame()
-screen.config(width=310,height=120,border=5,bg='black',cursor='circle')
-screen.place(x=31,y=450)
+grid = Frame();
+grid.configure(width=350,height=350,border=2,relief=RIDGE,bg='white',cursor='plus');    grid.place(x=15,y=70);
 global days;
 global total_mark;
-total_mark = 0.00
+total_mark = 0.00;
 #//Main process
 class Main(object):
     global total_mark;
@@ -136,18 +106,7 @@ class Main(object):
         Label(grid,text='Rate(%)',bg=Label_color,fg='black',font=Label_Font).place(x=_Const_,y=145);
         R.place(x=_Const_,y=170);
 
-        def transition_thread(threadName,delay):
-           
-            #This function tries to bring a bit of transition effect on program_start_up
-            #// works as expected but may need some proper way of doing it
-            global visible
-            visible = 0.0
-            #window.attributes('-transparentcolor','green2') #This will make spacified color transparent in the window
-            while(visible < 1.1):
-                visible = visible +0.1
-                time.sleep(0.1)
-                window.attributes('-alpha',visible)
-
+        
         Label(grid,text="Period[\t\t        ]",bg=Label_color,fg='black',font=Label_Font).place(x=_Const_,y=225);
         T.place(x=_Const_,y=250);
         Button(grid,text='calculate',bg='red',fg='white',border=2,relief=RIDGE,font="Roboto 10 bold",width=15,command=check().checkformat).place(x=36,y=309);
@@ -165,8 +124,7 @@ class Main(object):
         years.configure(border=0);
         years.place(x=135,y=225);
         months.place(x=70,y=225);
-        thread.start_new_thread(transition_thread,('transition',1))
-    
+        thread.start_new_thread(UI_transition.transition_thread,('transition',1,window))
 
 class check():
     def checkformat(self):
