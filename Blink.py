@@ -36,6 +36,8 @@ WindowProperties.Main_Window(window,_ProgramSize_,_ProgramTitle_,Main_window_col
 #PATCHS
 try:
 	from files.patchs import patch01
+        from files.files.settings import Osconfig
+        Osconfig.Os(window);
 	patch01.patch().menu(window);
 except:
 	pass
