@@ -10,6 +10,8 @@ Currently supported OS: Windows NT
 
 run the main file:
 >python blink.py
+or
+click on the python.pyw for starting without console
 
 The program is running as expected now
 With few more features coming soon
