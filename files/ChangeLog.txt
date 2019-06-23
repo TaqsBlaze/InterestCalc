@@ -1,0 +1,23 @@
+==============================================================================================
+Blink
+A financial tool developed in python for all your interest rate calculations
+Developed by Tanaka Chinengundu
+==============================================================================================
+
+
+Change Log
+==================
+V 1.5.10.0
+
+- Most classis are now in there own files
+- Currency display fix:
+    Now currency can be displais in 2decimal
+    also implimented the thousand separator
+
+- Added a Cleaning tool:
+    to remove compiled code after exiting the app
+    keeping your system clean 
+- More stable
+- Bug fixes
+- Windows support only
+- A more smoother transitioning system
